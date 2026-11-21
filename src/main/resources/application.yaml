@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: payment-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/payments   # local Postgres; change to 5433 for Docker later
+    username: app
+    password: app
+  jpa:
+    hibernate.ddl-auto: validate
+    open-in-view: false
+  kafka:
+    bootstrap-servers: localhost:9092
+management:
+  endpoints.web.exposure.include: health,info,prometheus
