@@ -5,6 +5,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/payments   # local Postgres; change to 5433 for Docker later
     username: app
     password: app
+  liquibase:
+    change-log: classpath:db/changelog/master-changelog.xml
   jpa:
     hibernate.ddl-auto: validate
     open-in-view: false

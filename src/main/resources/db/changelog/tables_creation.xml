@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+cc<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="govind anuj kumar">
+        <createTable tableName="accounts">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="balance" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_time" type="timestamp">
+            </column>
+        </createTable>
+
+        <sql>
+            ALTER TABLE accounts ADD CONSTRAINT check_1 CHECK(balance>=0);
+        </sql>
+    </changeSet>
+
+    <changeSet id="2" author="govind anuj kumar">
+        <createTable tableName="payments">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+
+            <column name="amount" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="payment_time" type="timestamp">
+            </column>
+            <column name="currency" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uid" type="bigint" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="sid" type="bigint" >
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <sql>
+            ALTER TABLE payments ADD CONSTRAINT check_2 CHECK(amount>0);
+        </sql>
+        <sql>
+            ALTER TABLE payments ADD CONSTRAINT foreign_key_1
+                FOREIGN KEY (uid)
+                    REFERENCES accounts(id);
+        </sql>
+        <sql>
+            ALTER TABLE payments ADD CONSTRAINT foreign_key_2
+                FOREIGN KEY (sid)
+                    REFERENCES accounts(id);
+        </sql>
+    </changeSet>
+
+    <changeSet id="3" author="govind anuj kumar">
+        <createTable tableName="ledger">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="accid" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movement" type="text"> <!-- in or out -->
+                <constraints nullable="false"/>
+            </column>
+            <column name="pid" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <sql>
+            ALTER TABLE ledger ADD CONSTRAINT check_3 CHECK(amount>0);
+        </sql>
+        <sql>
+            ALTER TABLE ledger ADD CONSTRAINT foreign_key
+            FOREIGN KEY (pid)
+            REFERENCES payments(id);
+        </sql>
+
+        <sql>
+            ALTER TABLE ledger ADD CONSTRAINT foreign_key_3
+                FOREIGN KEY (accid)
+                    REFERENCES accounts(id);
+        </sql>
+    </changeSet>
+</databaseChangeLog>
