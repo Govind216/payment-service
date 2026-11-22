@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-cc<databaseChangeLog
+<databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
@@ -103,6 +103,14 @@ cc<databaseChangeLog
             ALTER TABLE ledger ADD CONSTRAINT foreign_key_3
                 FOREIGN KEY (accid)
                     REFERENCES accounts(id);
+        </sql>
+    </changeSet>
+    <changeSet id="4" author="govind anuj kumar">
+        <sql>
+            ALTER TABLE accounts add column
+                first_amount bigint
+            CONSTRAINT check_acc_1 check(first_amount>=0)
+            NOT NULL ;
         </sql>
     </changeSet>
 </databaseChangeLog>
